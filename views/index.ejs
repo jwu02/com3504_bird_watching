@@ -6,6 +6,11 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <!-- enable add button only if the user has entered their nickname,
+      to ensure each sighting record is associated with a nickname -->
+    <input id="add_sighting_btn" type="button" value="+ Add sighting"
+           onclick="location.href='/add_sighting'" disabled />
+
+    <% include ./partials/footer.ejs %>
   </body>
 </html>
