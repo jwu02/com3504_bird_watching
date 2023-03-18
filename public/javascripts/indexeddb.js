@@ -1,18 +1,21 @@
 const BIRD_WATCHING_IDB_NAME = "BirdWatching";
 // name of object store for storing user nickname
 const SESSION_OS_NAME = "session_details";
+const NICKNAME_KEY = "nickname";
+const USER_SESSION_ID_KEY = "user_session_id";
 
 const handleUpgrade = (ev) => {
     const db = ev.target.result;
     console.log("Upgrading IndexedDB.");
     db.createObjectStore(SESSION_OS_NAME);
-}
+};
 
 const handleSuccess = (ev) => {
     console.log("IndexedDB connected successfully.");
 
     // prompt user for nickname once IndexedDB created
     const nickname = getNickname();
+    setUserIDInput();
 };
 
 function handleError (err) {
@@ -28,24 +31,22 @@ const BIRD_WATCHING_IDB_REQ = (() => {
     req.addEventListener("error", handleError);
 
     return req;
-})()
+})();
 
 const getNickname = () => {
-    const NICKNAME_KEY = "nickname";
-    const USER_SESSION_ID_KEY = "user_session_id";
-
     const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
     const transaction = birdWatchingIDB.transaction([SESSION_OS_NAME], "readwrite");
     const sessionDetailsStore = transaction.objectStore(SESSION_OS_NAME);
 
-    const nickname_request = sessionDetailsStore.get(NICKNAME_KEY);
-    nickname_request.onsuccess = (event) => {
-        let nickname = nickname_request.result;
+    const nicknameRequest = sessionDetailsStore.get(NICKNAME_KEY);
+    nicknameRequest.onsuccess = (event) => {
+        let nickname = nicknameRequest.result;
         // prompt user for nickname if it's not defined in IndexedDB
         if (!nickname) {
             nickname = prompt("Please enter a nickname");
             sessionDetailsStore.add(nickname, NICKNAME_KEY);
 
+            // store nickname in MongoDB
             fetch("/add_nickname_to_db", {
                 method: "POST",
                 headers: { // specify we are POSTing JSON-encoded data
@@ -54,17 +55,33 @@ const getNickname = () => {
                 body: JSON.stringify({nickname: nickname})
             }).then((response) => response.json())
                 .then((data) => {
+                    // store record ID response from server in IndexedDB
+                    // need to construct transaction again to write to object store
                     const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
                     const transaction = birdWatchingIDB.transaction([SESSION_OS_NAME], "readwrite");
                     const sessionDetailsStore = transaction.objectStore(SESSION_OS_NAME);
 
                     sessionDetailsStore.add(data.user_session_id, USER_SESSION_ID_KEY);
                 });
-        }
+        };
 
         let addSightingBtn = document.getElementById("add_sighting_btn");
         addSightingBtn.disabled = false;
 
         return nickname;
     }
-}
+};
+
+const setUserIDInput = () => {
+    const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
+    const transaction = birdWatchingIDB.transaction([SESSION_OS_NAME], "readonly");
+    const sessionDetailsStore = transaction.objectStore(SESSION_OS_NAME);
+
+    const userIDRequest = sessionDetailsStore.get(USER_SESSION_ID_KEY);
+    userIDRequest.onsuccess = (event) => {
+        let userIDInput = document.getElementById("user_session_id");
+        if (userIDInput) {
+            userIDInput.value = userIDRequest.result;
+        }
+    };
+};

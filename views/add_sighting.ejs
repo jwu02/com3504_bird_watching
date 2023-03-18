@@ -3,12 +3,11 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/javascripts/indexeddb.js"></script>
   </head>
   <body>
     <p><a href="/">back</a></p>
     <h1><%= title %></h1>
-    <form action="">
+    <form enctype="multipart/form-data" method="post" action="/add_sighting_to_db">
       <!-- associate nickname or ip address with sighting record? -->
       <input id="user_session_id" name="user_session_id" type="hidden" value=""><br>
 
@@ -17,11 +16,14 @@
 
       <!-- imagine this to be like a google search bar,
         with updated search result of the Wiki, need week 7 lectures -->
-      <label for="sighting_identification">Identification:</label>
-      <input id="sighting_identification" name="identification" type=""><br>
+<!--      <label for="sighting_identification">Identification:</label>-->
+<!--      <input id="sighting_identification" name="identification" type=""><br>-->
 
-      <label for="sighting_location">Location:</label>
-      <input id="sighting_location" name="location" type=""><br>
+<!--      <label for="sighting_location">Location:</label>-->
+<!--      <input id="sighting_location" name="location" type=""><br>-->
+
+      <label for="sighting_image">Choose an image</label>
+      <input id="sighting_image" name="image" type="file" accept="image/*" required><br>
 
       <label for="sighting_description">Description</label>
       <input id="sighting_description" name="description" type="text"><br>
@@ -29,5 +31,6 @@
       <button id="add_sighting_btn" type="submit" disabled>Add sighting</button>
     </form>
 
+    <script src="/javascripts/indexeddb.js"></script>
   </body>
 </html>

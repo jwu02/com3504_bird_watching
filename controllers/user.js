@@ -7,7 +7,7 @@ exports.insert = function (req, res) {
         nickname: req.body.nickname
     });
 
-    // save character in db
+    // save user in db
     user.save().then(() => {
         // send data back to client
         console.log(user);
