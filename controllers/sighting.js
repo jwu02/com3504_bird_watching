@@ -5,8 +5,10 @@ let Sighting = require('../models/sighting');
 exports.insert = function (req, res) {
     let sighting = new Sighting({
         poster_id: req.body.user_session_id,
+        poster_name: req.body.username,
         img: req.file.path,
-        description: req.body.description
+        description: req.body.description,
+        identification: req.body.identification,
     });
 
     // save sighting in db

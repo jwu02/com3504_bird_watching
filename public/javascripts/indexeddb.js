@@ -84,4 +84,12 @@ const setUserIDInput = () => {
             userIDInput.value = userIDRequest.result;
         }
     };
+
+    const usernameRequest = sessionDetailsStore.get(NICKNAME_KEY);
+    usernameRequest.onsuccess = (event) => {
+        let username = document.getElementById("username");
+        if (username) {
+            username.value = usernameRequest.result;
+        }
+    };
 };

@@ -3,6 +3,8 @@ var router = express.Router();
 
 var user_controller = require('../controllers/user');
 var sighting_controller = require('../controllers/sighting');
+var Sighting = require('../models/sighting');
+
 var multer = require('multer');
 
 // storage defines the storage options to be used for file upload with multer
@@ -22,7 +24,10 @@ var upload = multer({storage: storage});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Bird Watching' });
+  Sighting.find({}).then(function(results) {
+
+    res.render('index', { title: 'Bird Watching', sightings_list: results });
+  });
 });
 
 router.get('/add_sighting', function(req, res, next) {

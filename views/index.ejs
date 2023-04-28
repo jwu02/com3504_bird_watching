@@ -11,6 +11,28 @@
     <input id="add_sighting_btn" type="button" value="+ Add sighting"
            onclick="location.href='/add_sighting'" disabled />
 
+    <table>
+      <tr>
+        <th>Sighted Time</th>
+        <th>Identification</th>
+        <th>Sighted By</th>
+        <th></th>
+      </tr>
+
+      <% for(var i=0; i < sightings_list.length; i++) { %>
+        <tr>
+          <!-- https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs -->
+          <td><%= sightings_list[i].sighted_at.toISOString()
+                                              .replace(/T/, ' ')  // replace T with a space
+                                              .replace(/\..+/, '')  // delete the dot and everything after
+            %></td>
+          <td><%= sightings_list[i].identification %></td>
+          <td><%= sightings_list[i].poster_name %></td>
+          <td>View Details</td>
+        </tr>
+      <% } %>
+    </table>
+
     <% include ./partials/footer.ejs %>
   </body>
 </html>
