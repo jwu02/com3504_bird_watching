@@ -1,0 +1,26 @@
+.left, .right {
+    float: left;
+    width: 50%;
+}
+img {
+    width: 100%;
+    height: auto;
+}
+.chat {
+    height: 100px;
+    border: 1px solid #000;
+    padding: 10px;
+    overflow: auto;
+}
+.location {
+    height: 100px;
+    border: 1px solid #000;
+    padding: 10px;
+    overflow: auto;
+}
+.description {
+    height: 200px;
+    border: 1px solid #000;
+    padding: 10px;
+    overflow: auto;
+}
