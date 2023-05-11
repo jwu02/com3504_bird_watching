@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bird Page</title>
+    <link rel="stylesheet" href="/path/to/viewing.css"> <!-- 更新为正确的路径 -->
+</head>
+<body>
+    <div class="left">
+        <h1><%= bird.name %></h1>
+        <img src="<%= bird.image %>" alt="<%= bird.name %>">
+        <div class="chat"><%= chat %></div>
+    </div>
+    <div class="right">
+        <h2><%= user.name %></h2>
+        <p><%= user.date %></p>
+        <div class="location">
+            <% if (location.isLink) { %>
+                <a href="<%= location.content %>">View Location</a>
+            <% } else { %>
+                <img src="<%= location.content %>" alt="Location">
+            <% } %>
+        </div>
+        <div class="description"><%= description %></div>
+    </div>
+</body>
+</html>
