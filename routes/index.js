@@ -36,11 +36,7 @@ router.get('/add_sighting', function(req, res, next) {
 
 router.post('/add_sighting_to_db', upload.single('image'), sighting_controller.insert);
 
-router.get('view_sighting/:id', function(req, res, next) {
-
-  // sighting_id = req;
-  console.log(req.params.id);
-
+router.get('/view_sighting/:id', function(req, res, next) {
   Sighting.findById(req.params.id).then(function(result) {
     res.render('viewing', { title: 'View sighting', sighting: result });
   });

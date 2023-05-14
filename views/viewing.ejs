@@ -6,10 +6,13 @@
     <link rel="stylesheet" href="/stylesheets/viewing.css">
 </head>
 <body>
+    <p><a href="/">back</a></p>
+    <h1><%= title %></h1>
+
     <div class="left">
         <h1><%= sighting.identification %></h1>
-        <img src="<%= sighting.image %>" alt="<%= sighting.identification %>">
-        <div class="chat"><%= chat %></div>
+        <img src="<%= sighting.img %>" alt="<%= sighting.identification %>">
+        <div class="chat"></div>
     </div>
     <div class="right">
         <h2><%= sighting.poster_name %></h2>
