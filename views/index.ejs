@@ -28,7 +28,7 @@
             %></td>
           <td><%= sightings_list[i].identification %></td>
           <td><%= sightings_list[i].poster_name %></td>
-          <td>View Details</td>
+          <td><a href="view_sighting/<%= sightings_list[i]._id.toString() %>">View Details</a></td>
         </tr>
       <% } %>
     </table>
