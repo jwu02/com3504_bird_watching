@@ -13,15 +13,10 @@
       <input id="username" name="username" type="hidden" value=""><br>
 
       
-
       <!-- imagine this to be like a google search bar,
         with updated search result of the Wiki, need week 7/8 lectures -->
-      <label for="sighting_identification">Identification(If you sure what is the bird, please click the box):</label>
-      <input type="checkbox" id="identification" name="identification" value="true"></br>
-
-      <div id="birdNameContainer" style="display: none;">
-        <input type="text" name="birdName" placeholder="Bird Name">
-      </div>
+      <label for="sighting_identification">Identification</label>
+      <input id="sighting_identification" name="identification" type="text"><br>
 
 <!--      <label for="sighting_location">Location:</label>-->
 <!--      <input id="sighting_location" name="location" type=""><br>-->
@@ -35,6 +30,6 @@
       <button id="add_sighting_btn" type="submit" class="button" disabled>Add sighting</button>
     </form>
 
-    <script src="/javascripts/indexeddb.js"></script>
+
   </body>
 </html>
