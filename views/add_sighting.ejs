@@ -12,14 +12,16 @@
       <input id="user_session_id" name="user_session_id" type="hidden" value=""><br>
       <input id="username" name="username" type="hidden" value=""><br>
 
-      <!-- Name      -->
-      <label for="sighting_name">Bird's Name:</label><br/>
-      <input id="sighting_name" name="name" class="text_box" type="text"><br>
+      
 
       <!-- imagine this to be like a google search bar,
         with updated search result of the Wiki, need week 7/8 lectures -->
-      <label for="sighting_identification">Identification:</label><br/>
-      <input id="sighting_identification" name="identification" class="text_box" type="text"><br>
+      <label for="sighting_identification">Identification(If you sure it is a real bird, please click the box):</label>
+      <input type="checkbox" id="identification" name="identification" value="true"></br>
+
+      <div id="birdNameContainer" style="display: none;">
+        <input type="text" name="birdName" placeholder="Bird Name">
+      </div>
 
 <!--      <label for="sighting_location">Location:</label>-->
 <!--      <input id="sighting_location" name="location" type=""><br>-->
