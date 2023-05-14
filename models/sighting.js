@@ -9,6 +9,7 @@ let SightingSchema = new Schema({
     description: {type: String, max: 100},
     // location
     identification: {type: String, required: true},
+    birdName: {type: String},
     sighted_at: {type: Date, default: Date.now()},
 });
 
