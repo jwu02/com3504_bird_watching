@@ -5,14 +5,26 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/viewing.css">
 </head>
-<body>
+<body onload="init()">
     <p><a href="/">back</a></p>
     <h1><%= title %></h1>
 
     <div class="left">
         <h1><%= sighting.identification %></h1>
+        <p id="sighting_id" hidden><%= sighting._id %></p>
         <img src="<%= sighting.img %>" alt="<%= sighting.identification %>">
-        <div class="chat"></div>
+        <div class="chat">
+            <div id="history"></div>
+            <div id="input" class="bottom boxed">
+                <form onsubmit="return false;" style="width: 100%">
+                    <p>
+                        <label for="name"> chat: </label>
+                        <input type="text" id="chat_input" name="chat_input" style="width: 80%">
+                        <button id="chat_send" onclick="sendChatText()">Send</button>
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="right">
         <h2><%= sighting.poster_name %></h2>
@@ -20,5 +32,8 @@
 
         <div class="description"><%= sighting.description %></div>
     </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <% include ./partials/footer.ejs %>
 </body>
 </html>

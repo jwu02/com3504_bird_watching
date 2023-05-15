@@ -3,6 +3,8 @@ const BIRD_WATCHING_IDB_NAME = "BirdWatching";
 const SESSION_OS_NAME = "session_details";
 const NICKNAME_KEY = "nickname";
 const USER_SESSION_ID_KEY = "user_session_id";
+let nickname = null;
+let userSessionID = null;
 
 const handleUpgrade = (ev) => {
     const db = ev.target.result;
@@ -14,8 +16,8 @@ const handleSuccess = (ev) => {
     console.log("IndexedDB connected successfully.");
 
     // prompt user for nickname once IndexedDB created
-    const nickname = getNickname();
-    setUserIDInput();
+    let nickname_init = getNickname();
+    setUserDetailsInput();
 };
 
 function handleError (err) {
@@ -66,19 +68,31 @@ const getNickname = () => {
         };
 
         let addSightingBtn = document.getElementById("add_sighting_btn");
-        addSightingBtn.disabled = false;
+        if (addSightingBtn) addSightingBtn.disabled = false;
 
         return nickname;
     }
 };
 
-const setUserIDInput = () => {
+const getUserID = () => {
     const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
     const transaction = birdWatchingIDB.transaction([SESSION_OS_NAME], "readonly");
     const sessionDetailsStore = transaction.objectStore(SESSION_OS_NAME);
 
     const userIDRequest = sessionDetailsStore.get(USER_SESSION_ID_KEY);
     userIDRequest.onsuccess = (event) => {
+        return userIDRequest.result;
+    };
+}
+
+const setUserDetailsInput = () => {
+    const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
+    const transaction = birdWatchingIDB.transaction([SESSION_OS_NAME], "readonly");
+    const sessionDetailsStore = transaction.objectStore(SESSION_OS_NAME);
+
+    const userIDRequest = sessionDetailsStore.get(USER_SESSION_ID_KEY);
+    userIDRequest.onsuccess = (event) => {
+        userSessionID = userIDRequest.result;
         let userIDInput = document.getElementById("user_session_id");
         if (userIDInput) {
             userIDInput.value = userIDRequest.result;
@@ -87,9 +101,72 @@ const setUserIDInput = () => {
 
     const usernameRequest = sessionDetailsStore.get(NICKNAME_KEY);
     usernameRequest.onsuccess = (event) => {
+        nickname = usernameRequest.result;
         let username = document.getElementById("username");
         if (username) {
             username.value = usernameRequest.result;
         }
     };
 };
+
+
+let roomId = null;
+let socket = io();
+
+
+/**
+ * called by <body onload>
+ * it initialises the interface and the expected socket messages
+ * plus the associated actions
+ */
+function init() {
+    // called when someone joins the room. If it is someone else it notifies the joining of the room
+    socket.on('joined', function (sightingId) {
+        roomId = sightingId;
+        console.log(userSessionID);
+
+        console.log("Joined room successfully");
+    });
+    // called when a message is received
+    socket.on('chat', function (room, userId, username, chatText) {
+        let who = username;
+        if (userId === userSessionID) who = 'Me';
+        writeOnHistory('<b>' + who + ':</b> ' + chatText);
+    });
+
+    connectToRoom(); // function called each time sighting page loaded
+}
+
+
+/**
+ * called when the Send button is pressed. It gets the text to send from the interface
+ * and sends the message via  socket
+ */
+function sendChatText() {
+    var msg = document.getElementById('chat_input').value;
+
+    socket.emit('chat message', roomId, userSessionID, nickname, msg); // emit message to server
+}
+
+/**
+ * used to connect to a room. It gets
+ * - the user name and room number from the interface using document.getElementById('').value
+ * - uses socket.emit('create or join') to join the room
+ */
+function connectToRoom() {
+    // using the sighting records IDs as unique rooms
+    var sightingId = document.getElementById('sighting_id').innerHTML;
+    socket.emit('create or join', sightingId, userSessionID, nickname);
+}
+
+/**
+ * it appends the given html text to the history div
+ * @param text: teh text to append
+ */
+function writeOnHistory(text) {
+    let history = document.getElementById('history');
+    let paragraph = document.createElement('p');
+    paragraph.innerHTML = text;
+    history.appendChild(paragraph);
+    document.getElementById('chat_input').value = '';
+}
