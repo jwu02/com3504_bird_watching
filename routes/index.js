@@ -4,6 +4,7 @@ var router = express.Router();
 var user_controller = require('../controllers/user');
 var sighting_controller = require('../controllers/sighting');
 var Sighting = require('../models/sighting');
+var Message = require('../models/message');
 
 var multer = require('multer');
 
@@ -37,8 +38,10 @@ router.get('/add_sighting', function(req, res, next) {
 router.post('/add_sighting_to_db', upload.single('image'), sighting_controller.insert);
 
 router.get('/view_sighting/:id', function(req, res, next) {
-  Sighting.findById(req.params.id).then(function(result) {
-    res.render('viewing', { title: 'View sighting', sighting: result });
+  Sighting.findById(req.params.id).then(function(sighting_result) {
+    Message.find({sighting_id: req.params.id}).then(function(messages_result) {
+      res.render('viewing', { title: 'View sighting', sighting: sighting_result, chat_history: messages_result});
+    });
   });
 });
 

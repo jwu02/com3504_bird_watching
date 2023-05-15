@@ -5,7 +5,7 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/viewing.css">
 </head>
-<body onload="init()">
+<body onload="init_socketio()">
     <p><a href="/">back</a></p>
     <h1><%= title %></h1>
 
@@ -14,7 +14,11 @@
         <p id="sighting_id" hidden><%= sighting._id %></p>
         <img src="<%= sighting.img %>" alt="<%= sighting.identification %>">
         <div class="chat">
-            <div id="history"></div>
+            <div id="history">
+                <% for(var i=0; i<chat_history.length; i++) { %>
+                    <p><%= chat_history[i].msg %></p>
+                <% } %>
+            </div>
             <div id="input" class="bottom boxed">
                 <form onsubmit="return false;" style="width: 100%">
                     <p>
