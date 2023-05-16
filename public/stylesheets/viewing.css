@@ -24,3 +24,8 @@ img {
     padding: 10px;
     overflow: auto;
 }
+
+.sighting-image {
+    width: 300px;
+    height: 200px;
+}
