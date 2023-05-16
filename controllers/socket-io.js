@@ -21,10 +21,7 @@ exports.init = function(io) {
                     user_id: userSessionId,
                     msg: msg,
                 });
-
                 message.save(); // save message in db
-
-                console.log(message);// send data back to client
 
                 io.to(sightingId).emit('chat', sightingId, userSessionId, username, msg);
             });
