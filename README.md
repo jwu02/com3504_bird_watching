@@ -9,6 +9,6 @@
 ## Todos
 - minimal css styling
 - get location when adding sighting
-- display image properly in sighting details
+- display image properly in sighting details(done)
 - check for empty chat message input
 - determine whether it's "Me" when rendering chat history
