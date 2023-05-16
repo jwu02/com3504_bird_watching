@@ -6,7 +6,7 @@ exports.insert = function (req, res) {
     let sighting = new Sighting({
         poster_id: req.body.user_session_id,
         poster_name: req.body.username,
-        img: req.file.path,
+        img: `/uploads/${req.file.filename}`,
         description: req.body.description,
         identification: req.body.identification,
     });
