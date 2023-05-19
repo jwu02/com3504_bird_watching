@@ -16,17 +16,16 @@ self.addEventListener('install', event => {
     }));
 });
 
-// get cache, check network and update if needed
 self.addEventListener('fetch', event => {
+    // adapted "get cache, check network and update if needed" code snippet from
+    // week 7 - lecture 13 - PWA architectures to use a network first and update cache strategy
     event.respondWith(caches.open(staticCacheName).then(cache => {
-        return cache.match(event.request).then(cachedResponse => {
-            const fetchedResponse = fetch(event.request).then(networkResponse => {
-                cache.put(event.request, networkResponse.clone());
-                console.log(event.request);
-                return networkResponse;
-            });
-            return cachedResponse || fetchedResponse;
-        });
+        return fetch(event.request).then(networkResponse => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+        }).catch(err => {
+            return cache.match(event.request);
+        })
     }));
 });
 

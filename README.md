@@ -7,8 +7,8 @@
 6. Set `Environment variables` field to `DEBUG=com3504-bird-watching:*`
 
 ## Todos
-- minimal css styling
-- get location when adding sighting
+- get location when adding sighting (using google map api)
 - edit sighting (can update species identification only)
 - check for empty chat message input
-- determine whether it's "Me" when rendering chat history
+- when outputting chat history, simply change "Me" to user's name
+
