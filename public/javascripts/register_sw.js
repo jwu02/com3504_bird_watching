@@ -1,3 +1,5 @@
+// code for registering the service worker, linked in index.ejs
+
 (function () {
     console.log("init");
     if ("serviceWorker" in navigator) {

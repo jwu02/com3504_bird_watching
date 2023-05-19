@@ -10,5 +10,5 @@
 - get location when adding sighting (using google map api)
 - edit sighting (can update species identification only)
 - check for empty chat message input
-- when outputting chat history, simply change "Me" to user's name
 
+- offline page for if even fetching from cache fails
