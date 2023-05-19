@@ -6,13 +6,30 @@
     <link rel="stylesheet" href="/stylesheets/viewing.css">
 </head>
     <body onload="init_socketio()">
-        <p><a href="/">back</a></p>
-        <h1><%= title %></h1>
 
-        <div class="left">
-            <h1><%= sighting.identification %></h1>
-            <p id="sighting_id" hidden><%= sighting._id %></p>
-            <img src="<%= sighting.img %>" alt="<%= sighting.identification %>" class="sighting-image">
+    <h1 class="title"><%= title %></h1>
+    <header class="homebar">
+        <a href="/">Homepage</a>
+        <a href="/add_sighting">Add Sighting</a>
+    </header><br>
+
+
+        <div >
+            <div class="left">
+                <h1>User's Name: <%= sighting.poster_name %></h1>
+                <h1>Sight Date: <%= sighting.sighted_at %></h1>
+                <h1>Identification: <%= sighting.identification %></h1>
+                <p id="sighting_id" hidden><%= sighting._id %></p>
+            </div>
+            <div class="right">
+                <img src="<%= sighting.img %>" alt="<%= sighting.identification %>" class="sighting-image">
+            </div>
+
+        <div >
+            <h1>Description:</h1>
+            <p class="description"><%= sighting.description %></p>
+        </div>
+
             <div class="chat">
                 <div id="history">
                     <% for(var i=0; i<chat_history.length; i++) { %>
@@ -20,25 +37,24 @@
                             <%= chat_history[i].msg; %></p>
                     <% } %>
                 </div>
-                <div id="input" class="bottom boxed">
-                    <form onsubmit="return false;" style="width: 100%">
-                        <p>
-                            <label for="name"> chat: </label>
-                            <input type="text" id="chat_input" name="chat_input" style="width: 80%">
-                            <button id="chat_send" onclick="sendChatText()">Send</button>
-                        </p>
-                    </form>
-                </div>
             </div>
-        </div>
-        <div class="right">
-            <h2><%= sighting.poster_name %></h2>
-            <p><%= sighting.sighted_at %></p>
-
-            <div class="description"><%= sighting.description %></div>
+            <div id="input" class="bottom boxed">
+                <form onsubmit="return false;" style="width: 100%">
+                    <p>
+                        <label for="name"> Message: </label>
+                        <input type="text" id="chat_input" name="chat_input" style="width: 80%">
+                        <button id="chat_send" onclick="sendChatText()">Send</button>
+                    </p>
+                </form>
+            </div>
         </div>
 
         <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
         <% include ./partials/footer.ejs %>
     </body>
+<div>
+    <footer class="foot">
+        <p>© 2023 Bird Watching. This is a website made by web session Team 28</p>
+    </footer>
+</div>
 </html>

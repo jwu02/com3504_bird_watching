@@ -2,6 +2,7 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: lightblue;
+
 }
 
 a {
@@ -20,6 +21,15 @@ a {
   font:25px  "Helvetica", Arial, sans-serif;
   font-weight: bold;
   color: deepskyblue;
+  float: left;
+}
+
+.title2 {
+  font:25px  "Helvetica", Arial, sans-serif;
+  font-weight: bold;
+  color: deepskyblue;
+  float: left;
+
 }
 
 .bodyword {
@@ -51,6 +61,7 @@ a {
 .homebar {
   overflow: hidden;
   background-color: white;
+  cursor: pointer;
 }
 
 .homebar a{
@@ -67,14 +78,15 @@ a {
 
 .foot {
   overflow: hidden;
-  background-color: white;
+  background-color: lightblue;
   padding: 10px 20px;
   text-align: center;
+
 }
 
 .foot p {
   /*float: left;*/
-  color: deepskyblue;
+  color: white;
   text-align: center;
   padding-top: 1px;
   padding-bottom: 5px;
@@ -100,4 +112,9 @@ a {
   width: 100px;
   height: 100px;
   object-fit: cover;
+}
+
+.sighting-row:hover {
+  background-color: lightblue;
+  /*cursor: pointer;*/
 }

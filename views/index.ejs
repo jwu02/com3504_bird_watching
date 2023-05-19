@@ -9,10 +9,17 @@
 <h1 class="title"><%= title %></h1>
 <header class="homebar">
   <a href="/">Home</a>
-  <a href="/add_sighting">Add Sighting</a>
 </header><br>
 
-<h2 class="title1">Sighting List</h2>
+<header class="homebar">
+  <a class="title1">Sighting List</a>
+  <a id="add_sighting_btn" onclick="location.href='/add_sighting'"   class="title2">Add sighting</a>
+</header><br>
+<!--<h2 class="title1">Sighting List</h2>-->
+<!--&lt;!&ndash; enable add button only if the user has entered their nickname,-->
+<!--    to ensure each sighting record is associated with a nickname &ndash;&gt;-->
+<!--<input id="add_sighting_btn" type="button" value="+ Add sighting"-->
+<!--       onclick="location.href='/add_sighting'" disabled />-->
 
 
 <table class="table">
@@ -26,9 +33,9 @@
   </tr>
   </thead>
 
-  <tbody>
+
   <% for(var i=0; i < sightings_list.length; i++) { %>
-    <tr >
+    <tr class="sighting-row">
       <!-- https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs -->
       <td>
         <img src='<%= sightings_list[i].img %>' alt="Image" class="img">
@@ -50,12 +57,9 @@
         </a></td>
     </tr>
   <% } %>
-  </tbody>
+
 </table>
-<!-- enable add button only if the user has entered their nickname,
-    to ensure each sighting record is associated with a nickname -->
-<input id="add_sighting_btn" type="button" value="+ Add sighting"
-       onclick="location.href='/add_sighting'" disabled />
+
 <div>
   <footer class="foot">
     <p>© 2023 Bird Watching. This is a website made by web session Team 28</p>
