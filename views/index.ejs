@@ -1,38 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <!-- enable add button only if the user has entered their nickname,
-      to ensure each sighting record is associated with a nickname -->
-    <input id="add_sighting_btn" type="button" value="+ Add sighting"
-           onclick="location.href='/add_sighting'" disabled />
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
 
-    <table>
-      <tr>
-        <th>Sighted Time</th>
-        <th>Identification</th>
-        <th>Sighted By</th>
-        <th></th>
-      </tr>
+<body>
+<h1 class="title"><%= title %></h1>
+<header class="homebar">
+  <a href="/">Home</a>
+  <a href="/add_sighting">Add Sighting</a>
+</header><br>
 
-      <% for(var i=0; i < sightings_list.length; i++) { %>
-        <tr>
-          <!-- https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs -->
-          <td><%= sightings_list[i].sighted_at.toISOString()
-                                              .replace(/T/, ' ')  // replace T with a space
-                                              .replace(/\..+/, '')  // delete the dot and everything after
-            %></td>
-          <td><%= sightings_list[i].identification %></td>
-          <td><%= sightings_list[i].poster_name %></td>
-          <td><a href="view_sighting/<%= sightings_list[i]._id.toString() %>">View Details</a></td>
-        </tr>
-      <% } %>
-    </table>
+<h2 class="title1">Sighting List</h2>
 
-    <% include ./partials/footer.ejs %>
-  </body>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Image</th>
+    <th>Sighted Time</th>
+    <th>Identification</th>
+    <th>Sighted By</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% for(var i=0; i < sightings_list.length; i++) { %>
+    <tr >
+      <!-- https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs -->
+      <td>
+        <img src='<%= sightings_list[i].img %>' alt="Image" class="img">
+      </td>
+      <td>
+        <%= sightings_list[i].sighted_at.toISOString()
+                                          .replace(/T/, ' ')  // replace T with a space
+                                          .replace(/\..+/, '')  // delete the dot and everything after
+        %>
+      </td>
+      <td>
+        <%= sightings_list[i].identification %>
+      </td>
+      <td>
+        <%= sightings_list[i].poster_name %>
+      </td>
+      <td>
+        <a href="view_sighting/<%= sightings_list[i]._id.toString() %>">View Details
+        </a></td>
+    </tr>
+  <% } %>
+  </tbody>
+</table>
+<!-- enable add button only if the user has entered their nickname,
+    to ensure each sighting record is associated with a nickname -->
+<input id="add_sighting_btn" type="button" value="+ Add sighting"
+       onclick="location.href='/add_sighting'" disabled />
+<div>
+  <footer class="foot">
+    <p>© 2023 Bird Watching. This is a website made by web session Team 28</p>
+  </footer>
+</div>
+  <% include ./partials/footer.ejs %>
+</body>
 </html>

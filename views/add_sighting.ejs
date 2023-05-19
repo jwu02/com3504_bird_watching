@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <p><a href="/">back</a></p>
-    <h1><%= title %></h1>
-    <form enctype="multipart/form-data" method="post" action="/add_sighting_to_db">
-      <!-- values are setted in javascripts/indexeddb.js -->
-      <input id="user_session_id" name="user_session_id" type="hidden" value=""><br>
-      <input id="username" name="username" type="hidden" value=""><br>
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<header class="homebar">
+  <a href="/">Home</a>
+  <a href="/add_sighting">Add Sighting</a>
+</header><br>
+  <p><a href="/">back</a></p>
+  <h1><%= title %></h1>
+  <form enctype="multipart/form-data" method="post" action="/add_sighting_to_db">
+    <!-- values are setted in javascripts/indexeddb.js -->
+    <input id="user_session_id" name="user_session_id" type="hidden" value=""><br>
+    <input id="username" name="username" type="hidden" value=""><br>
 
-      
-      <!-- imagine this to be like a google search bar,
-        with updated search result of the Wiki, need week 7/8 lectures -->
-      <label for="sighting_identification">Identification</label>
-      <input id="sighting_identification" name="identification" type="text"><br>
+
+    <!-- imagine this to be like a google search bar,
+      with updated search result of the Wiki, need week 7/8 lectures -->
+    <label for="sighting_identification">Identification</label>
+    <input id="sighting_identification" name="identification" type="text"><br>
 
 <!--      <label for="sighting_location">Location:</label>-->
 <!--      <input id="sighting_location" name="location" type=""><br>-->
 
-      <label for="sighting_description">Description:</label><br/>
-      <textarea name="sighting_description" class="description" placeholder="Description" required></textarea><br/>
+    <label for="sighting_description">Description:</label><br/>
+    <textarea name="sighting_description" class="description" placeholder="Description" required></textarea><br/>
 
-      <label for="sighting_image">Choose an image</label>
-      <input id="sighting_image" name="image" type="file" accept="image/*" required><br>
+    <label for="sighting_image">Choose an image</label>
+    <input id="sighting_image" name="image" type="file" accept="image/*" required><br>
 
-      <button id="add_sighting_btn" type="submit" class="button" disabled>Add sighting</button>
-    </form>
+    <button id="add_sighting_btn" type="submit" class="button" disabled>Add sighting</button>
+  </form>
 
-    <% include ./partials/footer.ejs %>
-  </body>
+  <% include ./partials/footer.ejs %>
+</body>
 </html>
