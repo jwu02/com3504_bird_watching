@@ -7,9 +7,6 @@
 
 <body>
 <h1 class="title"><%= title %></h1>
-<header class="homebar">
-  <a href="/">Home</a>
-</header><br>
 
 <header class="homebar">
   <a class="title1">Sighting List</a>
@@ -37,34 +34,23 @@
   <% for(var i=0; i < sightings_list.length; i++) { %>
     <tr class="sighting-row">
       <!-- https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs -->
-      <td>
-        <img src='<%= sightings_list[i].img %>' alt="Image" class="img">
-      </td>
+      <td><img src='<%= sightings_list[i].img %>' alt="Image" class="img"></td>
       <td>
         <%= sightings_list[i].sighted_at.toISOString()
                                           .replace(/T/, ' ')  // replace T with a space
                                           .replace(/\..+/, '')  // delete the dot and everything after
         %>
       </td>
-      <td>
-        <%= sightings_list[i].identification %>
-      </td>
-      <td>
-        <%= sightings_list[i].poster_name %>
-      </td>
-      <td>
-        <a href="view_sighting/<%= sightings_list[i]._id.toString() %>">View Details
-        </a></td>
+      <td><%= sightings_list[i].identification %></td>
+      <td><%= sightings_list[i].poster_name %></td>
+      <td><a href="view_sighting/<%= sightings_list[i]._id.toString() %>">View Details</a></td>
     </tr>
   <% } %>
 
 </table>
 
-<div>
-  <footer class="foot">
-    <p>© 2023 Bird Watching. This is a website made by web session Team 28</p>
-  </footer>
-</div>
   <% include ./partials/footer.ejs %>
+  <script src="/javascripts/sync.js"></script>
+  <script defer src="/javascripts/register_sw.js"></script>
 </body>
 </html>

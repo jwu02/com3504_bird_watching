@@ -10,8 +10,7 @@ let SightingSchema = new Schema({
     // location
     identification: {type: String, required: true},
     sighted_at: {type: Date, default: Date.now()},
-
-    // messages: [{ type: Schema.Types.ObjectId, ref:'Message' }],
+    messages: [{ type: Schema.Types.ObjectId, ref:'Message' }],
 });
 
 // need create and export model

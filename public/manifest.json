@@ -1,0 +1,17 @@
+{
+  "lang": "en-uk",
+  "name": "My PWA",
+  "short_name": "My PWA",
+  "description": "A basic PWA",
+  "start_url": "/",
+  "background_color": "#2f3d58",
+  "theme_color": "#2f3d58",
+  "orientation": "any",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/images/image_icon.png",
+      "sizes": "512x512"
+    }
+  ]
+}

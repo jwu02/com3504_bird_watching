@@ -110,9 +110,10 @@ const setUserDetailsInput = () => {
 };
 
 
+
+
 let roomId = null;
 let socket = io();
-
 
 /**
  * called by <body onload>
@@ -120,7 +121,7 @@ let socket = io();
  * plus the associated actions
  */
 function init_socketio() {
-    // called when someone joins the room. If it is someone else it notifies the joining of the room
+    // called when someone joins the room
     socket.on('joined', function (sightingId) {
         roomId = sightingId;
         console.log(userSessionID);

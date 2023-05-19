@@ -18,5 +18,5 @@ exports.insert = function (req, res) {
     // send data back to client
     console.log(sighting);
     res.redirect("/");
-    location.reload();
+    // location.reload();
 };
