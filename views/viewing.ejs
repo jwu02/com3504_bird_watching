@@ -6,14 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/viewing.css">
 </head>
     <body onload="init_socketio()">
-
-    <h1 class="title"><%= title %></h1>
-    <header class="homebar">
-        <a href="/">Homepage</a>
-        <a href="/add_sighting">Add Sighting</a>
-    </header><br>
-
-
+        <% include ./partials/header.ejs %>
         <div >
             <div class="left">
                 <h1>User's Name: <%= sighting.poster_name %></h1>

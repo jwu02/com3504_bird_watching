@@ -32,7 +32,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/add_sighting', function(req, res, next) {
-  res.render('add_sighting', { title: 'Add sighting' });
+  res.render('add_sighting', { title: 'Add Sighting' });
 });
 
 router.post('/add_sighting_to_db', upload.single('image'), sighting_controller.insert);
@@ -40,7 +40,7 @@ router.post('/add_sighting_to_db', upload.single('image'), sighting_controller.i
 router.get('/view_sighting/:id', function(req, res, next) {
   Sighting.findById(req.params.id).then(function(sighting_result) {
     Message.find({sighting_id: req.params.id}).populate("user_id").then(function(messages_result) {
-      res.render('viewing', { title: 'View sighting', sighting: sighting_result, chat_history: messages_result});
+      res.render('viewing', { title: 'Sighting Details', sighting: sighting_result, chat_history: messages_result});
     });
   });
 });

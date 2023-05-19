@@ -5,11 +5,7 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <body>
-<header class="homebar">
-  <a href="/">Home</a>
-  <a href="/add_sighting">Add Sighting</a>
-</header><br>
-  <h1><%= title %></h1>
+  <% include ./partials/header.ejs %>
   <form enctype="multipart/form-data" method="post" action="/add_sighting_to_db">
     <!-- values are setted in javascripts/indexeddb.js -->
     <input id="user_session_id" name="user_session_id" type="hidden" value=""><br>
