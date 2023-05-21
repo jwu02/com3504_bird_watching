@@ -209,13 +209,13 @@ function appendOfflineSightingsList() {
             let sighting = cursor.value;
 
             let sightingRowElement = document.createElement("tr");
-            sightingRowElement.class = "sighting-row";
+            sightingRowElement.className = "sighting-row";
 
             let sightingImageTdElement = (() => {
                 // // https://hacks.mozilla.org/2012/02/storing-images-and-files-in-indexeddb/
                 let tdElement = document.createElement("td");
                 let sightingImageElement = document.createElement("img");
-                sightingImageElement.class = "img"
+                sightingImageElement.className = "img"
 
                 let reader = new FileReader();
                 reader.onload = function(e) {
@@ -244,7 +244,7 @@ function appendOfflineSightingsList() {
                 sightingRowElement.append(sightingDataElement);
             }
 
-            sightingsListElement.append(sightingRowElement);
+            sightingsListElement.lastChild.append(sightingRowElement);
             cursor.continue();
         }
     };
@@ -254,30 +254,3 @@ function displaySightingIdentificationName(name) {
     if (name === "") return "UNKNOWN";
     return name;
 }
-
-
-// function getImageBlob(imagePath) {
-//     let imageData;
-//
-//     // Retrieve the uploaded file from the input element
-//     const fileInput = document.getElementById('sighting-image');
-//     const file = fileInput.files[0];
-//
-//     // Convert the image file to a binary format
-//     const reader = new FileReader();
-//     reader.onload = function(event) {
-//         imageData = event.target.result; // This will contain the binary data of the image
-//     };
-//     reader.readAsArrayBuffer(file); // Use readAsDataURL() if you want to save the image as a base64-encoded string instead
-//
-//     // // https://hacks.mozilla.org/2012/02/storing-images-and-files-in-indexeddb/
-//     // let xhr = new XMLHttpRequest(), blob;
-//     // xhr.open("GET", imagePath, true);
-//     // xhr.responseType = "blob"; // set the response type to blob
-//     // xhr.addEventListener("load", function () {
-//     //     if (xhr.status === 200) {
-//     //         blob = xhr.response; // file as response
-//     //     }
-//     // }, false);
-//     // xhr.send(); // send XHR
-// }
