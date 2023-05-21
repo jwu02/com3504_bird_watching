@@ -25,8 +25,7 @@ var upload = multer({storage: storage});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Sighting.find({}).then(function(results) {
-
+  Sighting.find({}).sort({sighted_at: 'desc'}).then(function(results) {
     res.render('index', { title: 'Bird Watching', sightings_list: results });
   });
 });
