@@ -3,6 +3,9 @@
 <head>
   <title><%= title %></title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="module" src="/javascripts/indexeddb.js"></script>
+  <script type="module" src="/javascripts/add_sighting.js"></script>
 </head>
 <body>
   <% include ./partials/header.ejs %>
@@ -13,12 +16,15 @@
 
     <!-- Get the time for sighting    -->
     <label for="sighted_at">Date:</label>
-    <input type="date" id="sighted_at" name="sighted_at">
+    <input type="date" id="sighted_at" name="sighted_at"><br/>
 
     <!-- imagine this to be like a google search bar,
       with updated search result of the Wiki, need week 7/8 lectures -->
     <label for="sighting_identification">Identification</label>
-    <input id="sighting_identification" name="identification" type="text"><br>
+    <select id="bird_name" name="identification">
+      <option selected>Unknown</option>
+      <option>Uncertain</option>
+    </select><br/>
 
 <!--      <label for="sighting_location">Location:</label>-->
 <!--      <input id="sighting_location" name="location" type=""><br>-->
