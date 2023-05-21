@@ -164,18 +164,9 @@ function addSightingOffline() {
     const transaction = birdWatchingIDB.transaction([SIGHTINGS_OS_NAME], "readwrite");
     const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
 
-    let imageData;
-
     // Retrieve the uploaded file from the input element
     const fileInput = document.getElementById('sighting_image');
     const imageFile = fileInput.files[0];
-
-    // // Convert the image file to a binary format
-    // const reader = new FileReader();
-    // reader.onload = function(event) {
-    //     imageData = event.target.result; // This will contain the binary data of the image
-    // };
-    // reader.readAsArrayBuffer(file); // Use readAsDataURL() if you want to save the image as a base64-encoded string instead
 
     let sightingObject = {
         user_session_id: addSightingFormData.get('user_session_id'),
@@ -201,9 +192,9 @@ function appendOfflineSightingsList() {
     allSightingsRequest.onsuccess = (event) => {
         let cursor = allSightingsRequest.result;
 
-        // console.log(sightingDataArray);
         let sightingsListElement = document.getElementById("sightings-list");
 
+        // loop through each IndexedDB sighting object and construct HTML to display them
         if (cursor) {
             let key = cursor.primaryKey;
             let sighting = cursor.value;
@@ -212,7 +203,6 @@ function appendOfflineSightingsList() {
             sightingRowElement.className = "sighting-row";
 
             let sightingImageTdElement = (() => {
-                // // https://hacks.mozilla.org/2012/02/storing-images-and-files-in-indexeddb/
                 let tdElement = document.createElement("td");
                 let sightingImageElement = document.createElement("img");
                 sightingImageElement.className = "img"
@@ -227,9 +217,7 @@ function appendOfflineSightingsList() {
                 return tdElement;
 
             })();
-
             sightingRowElement.append(sightingImageTdElement);
-
 
             const dataToDisplay = [
                 sighting.sighted_at,
@@ -244,6 +232,7 @@ function appendOfflineSightingsList() {
                 sightingRowElement.append(sightingDataElement);
             }
 
+            // append to table's tbody element
             sightingsListElement.lastChild.append(sightingRowElement);
             cursor.continue();
         }
