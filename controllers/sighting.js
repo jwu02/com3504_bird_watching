@@ -9,7 +9,7 @@ exports.insert = function (req, res) {
         sighted_at: new Date(req.body.sighted_at),
         img: `/uploads/${req.file.filename}`,
         description: req.body.description,
-        identification: req.body.sighting_identification,
+        identification: req.body.identification,
     });
 
     // save sighting in db
