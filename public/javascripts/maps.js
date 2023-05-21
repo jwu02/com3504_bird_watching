@@ -29,6 +29,7 @@ async function initMap() {
         title: "SIGHTING_LOCATION",
     });
 
+
     map.addListener("click", (e) => {
         moveMarker(e.latLng.lat(), e.latLng.lng(), map, marker, true)
     })
@@ -41,10 +42,6 @@ const moveMarker = (lat, lng, map, marker, from_click) => {
         sightingLat.value = lat;
         sightingLng.value = lng;
     }
-}
-
-function updateMarker() {
-    alert(sightingLng.value);
 }
 
 initMap();
