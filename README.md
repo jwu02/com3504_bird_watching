@@ -12,3 +12,7 @@
 - check for empty chat message input
 
 - offline page for if even fetching from cache fails
+
+- offline functionality checklist - sightings + messages
+  - change form action to a function for adding to indexeddb (done)
+  - update server with sighting indexeddb data

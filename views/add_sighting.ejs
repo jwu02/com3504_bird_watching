@@ -6,7 +6,7 @@
 </head>
 <body>
   <% include ./partials/header.ejs %>
-  <form enctype="multipart/form-data" method="post" action="/add_sighting_to_db">
+  <form id="add-sighting-form" enctype="multipart/form-data" method="post" action="">
     <!-- values are setted in javascripts/indexeddb.js -->
     <input id="user_session_id" name="user_session_id" type="hidden" value=""><br>
     <input id="username" name="username" type="hidden" value=""><br>

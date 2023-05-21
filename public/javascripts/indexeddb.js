@@ -6,10 +6,15 @@ const USER_SESSION_ID_KEY = "user_session_id";
 let nickname = null;
 let userSessionID = null;
 
+const SIGHTINGS_OS_NAME = "sightings";
+
+const MESSAGES_OS_NAME = "messages";
+
 const handleUpgrade = (ev) => {
     const db = ev.target.result;
     console.log("Upgrading IndexedDB.");
     db.createObjectStore(SESSION_OS_NAME);
+    db.createObjectStore(SIGHTINGS_OS_NAME, {autoIncrement: true});
 };
 
 const handleSuccess = (ev) => {
@@ -18,6 +23,10 @@ const handleSuccess = (ev) => {
     // prompt user for nickname once IndexedDB created
     let nickname_init = getNickname();
     setUserDetailsInput();
+
+    // put function calls in here to address request not finished issue
+    initFormBehaviour();
+    appendOfflineSightingsList();
 };
 
 function handleError (err) {
@@ -110,3 +119,165 @@ const setUserDetailsInput = () => {
         }
     };
 };
+
+
+///////////////// implementing offline functionality //////////////////////
+let addSightingForm = document.getElementById("add-sighting-form");
+
+// change add sighting form action depending on whether online or offline
+function initFormBehaviour() {
+    navigator.onLine
+    const onlineFormAction = "/add_sighting_to_db";
+    const offlineFormAction = "javascript:addSightingOffline()";
+
+    if (addSightingForm) {
+        // setting form action on page load
+        if (navigator.onLine) {
+            addSightingForm.action = onlineFormAction;
+        } else {
+            addSightingForm.action = offlineFormAction;
+        }
+
+        // setting action listeners to change action/behaviour on network change
+        window.addEventListener('online', () => {
+            addSightingForm.action = onlineFormAction;
+        });
+        window.addEventListener('offline', () => {
+            addSightingForm.action = offlineFormAction;
+        });
+    }
+}
+
+function addSightingOffline() {
+    // add sighting to IndexedDB
+    let addSightingFormData = new FormData(addSightingForm);
+    const addSightingFormFields = [
+        'user_session_id',
+        'username',
+        'sighted_at',
+        'identification',
+        'description',
+        'image'
+    ];
+
+    const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
+    const transaction = birdWatchingIDB.transaction([SIGHTINGS_OS_NAME], "readwrite");
+    const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
+
+    let imageData;
+
+    // Retrieve the uploaded file from the input element
+    const fileInput = document.getElementById('sighting_image');
+    const imageFile = fileInput.files[0];
+
+    // // Convert the image file to a binary format
+    // const reader = new FileReader();
+    // reader.onload = function(event) {
+    //     imageData = event.target.result; // This will contain the binary data of the image
+    // };
+    // reader.readAsArrayBuffer(file); // Use readAsDataURL() if you want to save the image as a base64-encoded string instead
+
+    let sightingObject = {
+        user_session_id: addSightingFormData.get('user_session_id'),
+        username: addSightingFormData.get('username'),
+        sighted_at: addSightingFormData.get('sighted_at'),
+        identification: addSightingFormData.get('identification'),
+        description: addSightingFormData.get('description'),
+        image: imageFile,
+    };
+
+    sightingsStore.add(sightingObject)
+    // console.log(addSightingFormData.get('image'));
+    window.location.replace("/");
+}
+
+function appendOfflineSightingsList() {
+    const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
+    const transaction = birdWatchingIDB.transaction(SIGHTINGS_OS_NAME, "readwrite");
+    const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
+
+    const allSightingsRequest = sightingsStore.openCursor();
+
+    allSightingsRequest.onsuccess = (event) => {
+        let cursor = allSightingsRequest.result;
+
+        // console.log(sightingDataArray);
+        let sightingsListElement = document.getElementById("sightings-list");
+
+        if (cursor) {
+            let key = cursor.primaryKey;
+            let sighting = cursor.value;
+
+            let sightingRowElement = document.createElement("tr");
+            sightingRowElement.class = "sighting-row";
+
+            let sightingImageTdElement = (() => {
+                // // https://hacks.mozilla.org/2012/02/storing-images-and-files-in-indexeddb/
+                let tdElement = document.createElement("td");
+                let sightingImageElement = document.createElement("img");
+                sightingImageElement.class = "img"
+
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    sightingImageElement.src = e.target.result;
+                };
+                reader.readAsDataURL(sighting.image);
+
+                tdElement.append(sightingImageElement);
+                return tdElement;
+
+            })();
+
+            sightingRowElement.append(sightingImageTdElement);
+
+
+            const dataToDisplay = [
+                sighting.sighted_at,
+                displaySightingIdentificationName(sighting.identification),
+                sighting.username,
+                `<a href=view_sighting/${key}>View Details</a>`
+            ]
+
+            for (const data of dataToDisplay) {
+                let sightingDataElement = document.createElement("td");
+                sightingDataElement.innerHTML = data;
+                sightingRowElement.append(sightingDataElement);
+            }
+
+            sightingsListElement.append(sightingRowElement);
+            cursor.continue();
+        }
+    };
+}
+
+function displaySightingIdentificationName(name) {
+    if (name === "") return "UNKNOWN";
+    return name;
+}
+
+
+// function getImageBlob(imagePath) {
+//     let imageData;
+//
+//     // Retrieve the uploaded file from the input element
+//     const fileInput = document.getElementById('sighting-image');
+//     const file = fileInput.files[0];
+//
+//     // Convert the image file to a binary format
+//     const reader = new FileReader();
+//     reader.onload = function(event) {
+//         imageData = event.target.result; // This will contain the binary data of the image
+//     };
+//     reader.readAsArrayBuffer(file); // Use readAsDataURL() if you want to save the image as a base64-encoded string instead
+//
+//     // // https://hacks.mozilla.org/2012/02/storing-images-and-files-in-indexeddb/
+//     // let xhr = new XMLHttpRequest(), blob;
+//     // xhr.open("GET", imagePath, true);
+//     // xhr.responseType = "blob"; // set the response type to blob
+//     // xhr.addEventListener("load", function () {
+//     //     if (xhr.status === 200) {
+//     //         blob = xhr.response; // file as response
+//     //     }
+//     // }, false);
+//     // xhr.send(); // send XHR
+// }
