@@ -2,9 +2,9 @@
 let map;
 let marker;
 
-const mapDiv = document.getElementById("map")
-const sightingLat = document.getElementById("latitude")
-const sightingLng = document.getElementById("longitude")
+const mapDiv = document.getElementById("map");
+const sightingLat = document.getElementById("latitude");
+const sightingLng = document.getElementById("longitude");
 
 async function initMap() {
     // Location of The Diamond as the starting point for map
@@ -42,6 +42,12 @@ const moveMarker = (lat, lng, map, marker, from_click) => {
         sightingLat.value = lat;
         sightingLng.value = lng;
     }
-}
+};
 
 initMap();
+
+function updateMapFromInput() {
+    moveMarker(parseFloat(sightingLat.value), parseFloat(sightingLng.value), map, marker, true);
+}
+sightingLat.addEventListener("change", updateMapFromInput);
+sightingLng.addEventListener("change", updateMapFromInput);

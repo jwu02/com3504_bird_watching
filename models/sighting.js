@@ -10,6 +10,8 @@ let SightingSchema = new Schema({
     // location
     identification: {type: String, required: true},
     sighted_at: {type: Date, default: Date.now()},
+    latitude: {type: Number, default: 53.3823417}, // The Diamond location as default values
+    longitude: {type: Number, default: -1.4807941},
     messages: [{ type: Schema.Types.ObjectId, ref:'Message' }],
 });
 

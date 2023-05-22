@@ -10,6 +10,8 @@ exports.insert = function (req, res) {
         img: `/uploads/${req.file.filename}`,
         description: req.body.description,
         identification: req.body.identification,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
     });
 
     // save sighting in db
