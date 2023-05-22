@@ -24,12 +24,13 @@ Group Assessment for COM3504-6504 The Intelligent Web
   by date(the more recent, the higher the ranking).
 - In the Homepage, User can make a new sighting by a button named `Add Sighting`, choose the time,
   choose the identification, upload a description and an image.
-- When website go offline, user can still add new sighting too.
+- When website go offline, user can still see the list(relateive to himself) and add new sighting too.
 - In the Homepage, user can click `View Details` which will go to the Sighting Details page.
   for a specific sighting.
 - In the Sighting Details page, user can see more information about the sighting: User's name(Author),
   Date and time, the identification, a description made by author, the sighting image,
   A description and a link from DBPedia. Finally, A chat system in the bottom.
+- User can send message in the chat system, and see the history bu name bott online and offline(can not send.)
 - In the detail page, user can update the identification by click `Change Identification`.
 - When system go online again, can merge the sighting made in offline to the database by click button `click to sync offline data`,
   user can see them in homepage too.
