@@ -14,7 +14,7 @@ function init_socketio() {
     });
     // called when a message is received
     socket.on('chat', function (room, userId, username, chatText) {
-        writeOnHistory('<b>' + window.nickname + ':</b> ' + chatText);
+        writeOnHistory('<b>' + username + ':</b> ' + chatText);
     });
 
     connectToRoom(); // function called each time sighting page loaded
