@@ -10,11 +10,11 @@ Group Assessment for COM3504-6504 The Intelligent Web
 
 ## First time setting up repository with WebStorm
 1. Run `npm install` first
-2. `Select Run/Debug Configuration`
-3. `Edit Configurations...`
-4. `Add New Configuration` for `Node.js`
-5. Set `JavaScript file` field to `bin\www`
-6. Set `Environment variables` field to `DEBUG=com3504-bird-watching:*`
+2. Right click on `/bin/www`
+3. In the top right hand corner will see `www` in a box, click on the inverted triangle button.
+4. `Edit Configurations...`
+6. Set `JavaScript file` field to `bin\www`
+7. Set `Environment variables` field to `DEBUG=com3504-bird-watching:*`
 
 ## Implementation
 
@@ -24,23 +24,11 @@ Group Assessment for COM3504-6504 The Intelligent Web
   by date(the more recent, the higher the ranking).
 - In the Homepage, User can make a new sighting by a button named `Add Sighting`, choose the time,
   choose the identification, upload a description and an image.
+- When website go offline, user can still add new sighting too.
 - In the Homepage, user can click `View Details` which will go to the Sighting Details page.
   for a specific sighting.
 - In the Sighting Details page, user can see more information about the sighting: User's name(Author),
   Date and time, the identification, a description made by author, the sighting image,
   A description and a link from DBPedia. Finally, A chat system in the bottom.
-
-[//]: # (- When website go offline, user can still add new sighting too.)
-[//]: # (- In the detail page, user can update the identification by click `Update Identification`.)
-[//]: # (- When system go online again, will merge the sighting made in offline to the database, user can see them in homepage too)
-
-## Todos
-- get location when adding sighting (using google map api)
-- edit sighting (can update species identification only)
-- check for empty chat message input
-
-- offline page for if even fetching from cache fails
-
-- offline functionality checklist - sightings + messages
-  - change form action to a function for adding to indexeddb (done)
-  - update server with sighting indexeddb data
+- In the detail page, user can update the identification by click `Change Identification`.
+- When system go online again, will merge the sighting made in offline to the database, user can see them in homepage too
