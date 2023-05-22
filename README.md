@@ -10,7 +10,7 @@ Group Assessment for COM3504-6504 The Intelligent Web
 
 ## First time setting up repository with WebStorm
 1. Run `npm install` first
-2. Right click on `/bin/www`
+2. Right click on `/bin/www`， click Run 'www'.
 3. In the top right hand corner will see `www` in a box, click on the inverted triangle button.
 4. `Edit Configurations...`
 6. Set `JavaScript file` field to `bin\www`
