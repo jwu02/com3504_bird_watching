@@ -44,6 +44,14 @@ router.get('/view_sighting/:id', function(req, res, next) {
   });
 });
 
+router.post('/edit_sighting/:id', function(req, res, next) {
+  console.log(`${req.body.identification}, ${req.params.id}`)
+  Sighting.findByIdAndUpdate(req.params.id, {identification: req.body.identification})
+      .then(()=>console.log("Identification updated successfully."))
+      .catch(err=>console.log("Failed to update identification"));
+  res.redirect("/");
+});
+
 router.post('/add_nickname_to_db', user_controller.insert);
 
 

@@ -78,8 +78,10 @@ function populateBirdList(birdNames) {
 
 
 // Update the identification in detail page
-document.getElementById('change_id_btn').addEventListener('click', function() {
+let changeIdentificationBtn = document.getElementById('change_id_btn');
+changeIdentificationBtn.addEventListener('click', function() {
     document.getElementById('dialog').style.display = 'block';
+    changeIdentificationBtn.hidden = true;
 });
 
 document.getElementById('dialog_ok').addEventListener('click', function() {
@@ -90,5 +92,6 @@ document.getElementById('dialog_ok').addEventListener('click', function() {
 
 document.getElementById('dialog_cancel').addEventListener('click', function() {
     document.getElementById('dialog').style.display = 'none';
+    changeIdentificationBtn.hidden = false;
 });
 

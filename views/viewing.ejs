@@ -12,18 +12,20 @@
         <% include ./partials/header.ejs %>
         <div>
             <div class="left">
-                <p1 class="p1">User's Name: <%= sighting.poster_name %></p1><br/>
-                <p1 class="p1">Sight Date: <%= sighting.sighted_at %></p1><br/>
-                <p1 class="p1">Identification: <%= sighting.identification %></p1><br/>
+                <h1 class="p1">User's Name: <%= sighting.poster_name %></h1><br/>
+                <h1 class="p1">Sight Date: <%= sighting.sighted_at %></h1><br/>
+                <h1 class="p1">Identification: <%= sighting.identification %></h1><br/>
                 <div id="dialog" style="display: none;">
-                    <select id="bird_name" name="identification">
-                        <option selected>Unknown</option>
-                        <option>Uncertain</option>
-                    </select>
-                    <button id="dialog_ok">OK</button>
-                    <button id="dialog_cancel">Cancel</button>
+                    <form action="/edit_sighting/<%= sighting._id.toString() %>" method="post">
+                        <select id="bird_name" name="identification">
+                            <option selected>Unknown</option>
+                            <option>Uncertain</option>
+                        </select>
+                        <button id="dialog_ok" type="submit">OK</button>
+                        <button id="dialog_cancel" type="button">Cancel</button>
+                    </form>
                 </div>
-                <button id="change_id_btn">Change Identification</button>
+                <button id="change_id_btn">Change Identification</button><br/>
                 <p id="sighting_id" hidden><%= sighting._id %></p>
             </div>
             <div class="right">
@@ -58,8 +60,5 @@
     <% include ./partials/footer.ejs %>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="/javascripts/socket_io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="module" src="/javascripts/add_sighting.js"></script>
-    <script src="/javascripts/edit_sighting.js"></script>
 
 </html>
