@@ -75,3 +75,20 @@ function populateBirdList(birdNames) {
         $('#bird_name').append(`<option value='${name}'>${name}</option>`);
     });
 }
+
+
+// Update the identification in detail page
+document.getElementById('change_id_btn').addEventListener('click', function() {
+    document.getElementById('dialog').style.display = 'block';
+});
+
+document.getElementById('dialog_ok').addEventListener('click', function() {
+    const selectedIdentification = document.getElementById('dialog_bird_name').value;
+    document.querySelector('select[name="identification"]').value = selectedIdentification;
+    document.getElementById('dialog').style.display = 'none';
+});
+
+document.getElementById('dialog_cancel').addEventListener('click', function() {
+    document.getElementById('dialog').style.display = 'none';
+});
+
