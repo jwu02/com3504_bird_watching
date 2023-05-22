@@ -25,8 +25,7 @@ var upload = multer({storage: storage});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Sighting.find({}).then(function(results) {
-
+  Sighting.find({}).sort({sighted_at: 'desc'}).then(function(results) {
     res.render('index', { title: 'Bird Watching', sightings_list: results });
   });
 });
@@ -43,6 +42,14 @@ router.get('/view_sighting/:id', function(req, res, next) {
       res.render('viewing', { title: 'Sighting Details', sighting: sighting_result, chat_history: messages_result});
     });
   });
+});
+
+router.post('/edit_sighting/:id', function(req, res, next) {
+  console.log(`${req.body.identification}, ${req.params.id}`)
+  Sighting.findByIdAndUpdate(req.params.id, {identification: req.body.identification})
+      .then(()=>console.log("Identification updated successfully."))
+      .catch(err=>console.log("Failed to update identification"));
+  res.redirect("/");
 });
 
 router.post('/add_nickname_to_db', user_controller.insert);

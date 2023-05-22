@@ -7,6 +7,11 @@ const filesToCache = [
 ];
 const staticCacheName = 'BirdWatchingApp';
 
+let BIRD_WATCHING_IDB_REQ;
+const BIRD_WATCHING_IDB_NAME = "BirdWatching";
+const SIGHTINGS_OS_NAME = "sightings";
+const MESSAGES_OS_NAME = "messages";
+
 // Use the install event to pre-cache any initial static resources
 self.addEventListener('install', event => {
     console.log('Installing service worker');
@@ -21,7 +26,9 @@ self.addEventListener('install', event => {
 // service worker is available when page is refreshed
 // execution can be forced using self.skipWaiting;
 self.addEventListener('activate', event => {
-// Remove old caches
+    initIndexedDB();
+
+    // Remove old caches
     event.waitUntil(
         (async () => {
             const keys = await caches.keys();
@@ -55,9 +62,70 @@ self.addEventListener('fetch', event => {
 });
 
 
+function syncSightings() {
+    const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
+    const transaction = birdWatchingIDB.transaction(SIGHTINGS_OS_NAME, "readwrite");
+    const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
+
+    const allSightingsRequest = sightingsStore.openCursor();
+
+    allSightingsRequest.onsuccess = (event) => {
+        let cursor = allSightingsRequest.result;
+
+        if (cursor) {
+            let sightingKey = cursor.primaryKey;
+            let sighting = cursor.value;
+
+            // constructing a FormData object emulating an HTML form to be posted to the server
+            const sightingFormData = new FormData();
+            for (const dictKey in sighting) {
+                sightingFormData.append(dictKey, sighting[dictKey]);
+            }
+
+            fetch("/add_sighting_to_db", {
+                method: "POST",
+                body: sightingFormData
+            }).then((response) => {
+                if (response.ok) {
+                    // delete sighting record from IndexedDB if saved to server
+                    const transaction = birdWatchingIDB.transaction(SIGHTINGS_OS_NAME, "readwrite");
+                    const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
+                    const deleteSightingRequest = sightingsStore.delete(sightingKey);
+                    deleteSightingRequest.onsuccess = () => {
+                        console.log(`Sighting ${sightingKey} deleted from IndexedDB: ${sighting}`);
+                    };
+                }
+            }).catch(err => console.log(err));
+
+            cursor.continue();
+        }
+    }
+}
+
+
 self.addEventListener('sync', (event) => {
-    console.info('Event: Sync', event);
     if (event.tag === 'sync-sightings') {
-        console.log("actually syncing OMG WOW");
+        event.waitUntil(syncSightings());
     }
 });
+
+
+const handleUpgrade = (ev) => {
+    const db = ev.target.result;
+    console.log("Upgrading IndexedDB.");
+    db.createObjectStore(SESSION_OS_NAME);
+    db.createObjectStore(SIGHTINGS_OS_NAME, {autoIncrement: true});
+};
+
+
+function initIndexedDB() {
+    // 1 is the developer version of the DB
+    BIRD_WATCHING_IDB_REQ = indexedDB.open(BIRD_WATCHING_IDB_NAME, 1);
+    BIRD_WATCHING_IDB_REQ.addEventListener("upgradeneeded", handleUpgrade);
+    BIRD_WATCHING_IDB_REQ.addEventListener("success", ()=>{
+        console.log("IndexedDB connected successfully in service worker.");
+    });
+    BIRD_WATCHING_IDB_REQ.addEventListener("error", err => {
+        console.log(JSON.stringify(err));
+    });
+}

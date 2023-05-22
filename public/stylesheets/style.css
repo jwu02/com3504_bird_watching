@@ -14,7 +14,7 @@ a {
   text-align: center;
   font:45px  "Helvetica", Arial, sans-serif;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 .title1 {
@@ -86,7 +86,7 @@ a {
 
 .foot p {
   /*float: left;*/
-  color: white;
+  color: black;
   text-align: center;
   padding-top: 1px;
   padding-bottom: 5px;

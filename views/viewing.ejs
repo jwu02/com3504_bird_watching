@@ -4,24 +4,38 @@
     <meta charset="UTF-8">
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/viewing.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="module" src="/javascripts/indexeddb.js"></script>
+    <script type="module" src="/javascripts/add_sighting.js"></script>
 </head>
     <body onload="init_socketio()">
         <% include ./partials/header.ejs %>
-        <div >
+        <div>
             <div class="left">
-                <h1>User's Name: <%= sighting.poster_name %></h1>
-                <h1>Sight Date: <%= sighting.sighted_at %></h1>
-                <h1>Identification: <%= sighting.identification %></h1>
+                <h1 class="p1">User's Name: <%= sighting.poster_name %></h1><br/>
+                <h1 class="p1">Sight Date: <%= sighting.sighted_at %></h1><br/>
+                <h1 class="p1">Identification: <%= sighting.identification %></h1><br/>
+                <div id="dialog" style="display: none;">
+                    <form action="/edit_sighting/<%= sighting._id.toString() %>" method="post">
+                        <select id="bird_name" name="identification">
+                            <option selected>Unknown</option>
+                            <option>Uncertain</option>
+                        </select>
+                        <button id="dialog_ok" type="submit">OK</button>
+                        <button id="dialog_cancel" type="button">Cancel</button>
+                    </form>
+                </div>
+                <button id="change_id_btn">Change Identification</button><br/>
                 <p id="sighting_id" hidden><%= sighting._id %></p>
             </div>
             <div class="right">
                 <img src="<%= sighting.img %>" alt="<%= sighting.identification %>" class="sighting-image">
             </div>
 
-        <div >
-            <h1>Description:</h1>
-            <p class="description"><%= sighting.description %></p>
-        </div>
+            <div >
+                <h1>Description:</h1>
+                <p class="description"><%= sighting.description %></p>
+            </div>
 
             <div class="chat">
                 <div id="history">
