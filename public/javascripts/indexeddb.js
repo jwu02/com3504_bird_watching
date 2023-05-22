@@ -7,7 +7,6 @@ let nickname = null;
 let userSessionID = null;
 
 const SIGHTINGS_OS_NAME = "sightings";
-
 const MESSAGES_OS_NAME = "messages";
 
 const handleUpgrade = (ev) => {
@@ -29,20 +28,19 @@ const handleSuccess = (ev) => {
     appendOfflineSightingsList();
 };
 
-function handleError (err) {
-    console.log(JSON.stringify(err));
-};
-
 // IIFE (immediately invoked function expression)
 const BIRD_WATCHING_IDB_REQ = (() => {
     // 1 is the developer version of the DB
     const req = indexedDB.open(BIRD_WATCHING_IDB_NAME, 1);
     req.addEventListener("upgradeneeded", handleUpgrade);
     req.addEventListener("success", handleSuccess);
-    req.addEventListener("error", handleError);
+    req.addEventListener("error", err => {
+        console.log(JSON.stringify(err));
+    });
 
     return req;
 })();
+
 
 const getNickname = () => {
     const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
@@ -184,7 +182,7 @@ function addSightingOffline() {
 
 function appendOfflineSightingsList() {
     const birdWatchingIDB = BIRD_WATCHING_IDB_REQ.result;
-    const transaction = birdWatchingIDB.transaction(SIGHTINGS_OS_NAME, "readwrite");
+    const transaction = birdWatchingIDB.transaction(SIGHTINGS_OS_NAME, "readonly");
     const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
 
     const allSightingsRequest = sightingsStore.openCursor();
