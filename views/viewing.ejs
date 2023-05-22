@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/viewing.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="module" src="/javascripts/indexeddb.js"></script>
+    <script type="module" src="/javascripts/add_sighting.js"></script>
 </head>
     <body onload="init_socketio()">
         <% include ./partials/header.ejs %>
         <div>
             <div class="left">
-                <h1>User's Name: <%= sighting.poster_name %></h1>
-                <h1>Sight Date: <%= sighting.sighted_at %></h1>
-                <h1>Identification: <span id="identification-span"><%= sighting.identification %></span></h1>
-                <button id="edit-identification-btn">Edit Identification</button>
-                <span id="edit-identification-hidden" hidden>
-                    <button id="edit-identification-cancel-btn">Cancel</button>
-                    <button id="edit-identification-save-btn">Save</button>
-                </span>
+                <p1 class="p1">User's Name: <%= sighting.poster_name %></p1><br/>
+                <p1 class="p1">Sight Date: <%= sighting.sighted_at %></p1><br/>
+                <p1 class="p1">Identification: <%= sighting.identification %></p1><br/>
+                <div id="dialog" style="display: none;">
+                    <select id="bird_name" name="identification">
+                        <option selected>Unknown</option>
+                        <option>Uncertain</option>
+                    </select>
+                    <button id="dialog_ok">OK</button>
+                    <button id="dialog_cancel">Cancel</button>
+                </div>
+                <button id="change_id_btn">Change Identification</button>
                 <p id="sighting_id" hidden><%= sighting._id %></p>
             </div>
             <div class="right">
