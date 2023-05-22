@@ -87,10 +87,12 @@ function syncSightings() {
             }).then((response) => {
                 if (response.ok) {
                     // delete sighting record from IndexedDB if saved to server
-                    const deleteSightingRequest = cursor.delete();
-                    deleteSightingRequest.addEventListener('success', () => {
+                    const transaction = birdWatchingIDB.transaction(SIGHTINGS_OS_NAME, "readwrite");
+                    const sightingsStore = transaction.objectStore(SIGHTINGS_OS_NAME);
+                    const deleteSightingRequest = sightingsStore.delete(sightingKey);
+                    deleteSightingRequest.onsuccess = () => {
                         console.log(`Sighting ${sightingKey} deleted from IndexedDB: ${sighting}`);
-                    });
+                    };
                 }
             }).catch(err => console.log(err));
 
