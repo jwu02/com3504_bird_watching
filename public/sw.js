@@ -76,6 +76,7 @@ function syncSightings() {
             let sightingKey = cursor.primaryKey;
             let sighting = cursor.value;
 
+            // constructing a FormData object emulating an HTML form to be posted to the server
             const sightingFormData = new FormData();
             for (const dictKey in sighting) {
                 sightingFormData.append(dictKey, sighting[dictKey]);

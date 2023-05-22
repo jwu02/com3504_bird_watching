@@ -7,21 +7,26 @@
 </head>
     <body onload="init_socketio()">
         <% include ./partials/header.ejs %>
-        <div >
+        <div>
             <div class="left">
                 <h1>User's Name: <%= sighting.poster_name %></h1>
                 <h1>Sight Date: <%= sighting.sighted_at %></h1>
-                <h1>Identification: <%= sighting.identification %></h1>
+                <h1>Identification: <span id="identification-span"><%= sighting.identification %></span></h1>
+                <button id="edit-identification-btn">Edit Identification</button>
+                <span id="edit-identification-hidden" hidden>
+                    <button id="edit-identification-cancel-btn">Cancel</button>
+                    <button id="edit-identification-save-btn">Save</button>
+                </span>
                 <p id="sighting_id" hidden><%= sighting._id %></p>
             </div>
             <div class="right">
                 <img src="<%= sighting.img %>" alt="<%= sighting.identification %>" class="sighting-image">
             </div>
 
-        <div >
-            <h1>Description:</h1>
-            <p class="description"><%= sighting.description %></p>
-        </div>
+            <div >
+                <h1>Description:</h1>
+                <p class="description"><%= sighting.description %></p>
+            </div>
 
             <div class="chat">
                 <div id="history">
@@ -46,5 +51,8 @@
     <% include ./partials/footer.ejs %>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="/javascripts/socket_io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="module" src="/javascripts/add_sighting.js"></script>
+    <script src="/javascripts/edit_sighting.js"></script>
 
 </html>
